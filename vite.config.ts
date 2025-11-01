@@ -12,4 +12,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    host: '0.0.0.0', // Listen on all interfaces for dev container
+    port: 5173,
+    strictPort: true,
+    watch: {
+      usePolling: true, // Required for file watching in some container environments
+    },
+  },
 });
