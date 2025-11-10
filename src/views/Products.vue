@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useProducts } from '@/composables/useProducts';
+import { useTelemetry } from '@/composables/useTelemetry';
 
 const { products, loading, error, fetchProducts } = useProducts();
+const { trackPageView } = useTelemetry();
 
 onMounted(() => {
+  // Track page view
+  trackPageView('Products', window.location.pathname);
+
   fetchProducts();
 });
 
