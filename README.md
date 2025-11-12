@@ -26,18 +26,18 @@ npm run build
 
 ```bash
 az storage account create \
-  --name <productappstoragename> \
-  --resource-group <your-resource-group> \
-  --location <permitted-location> \
+  --name weekeightva96appsa \
+  --resource-group weekeight-va96-rg \
+  --location uksouth \
   --sku Standard_LRS \
   --kind StorageV2
 ```
 
-2. Enable static website and set the index page:
+2. Enable static website and set the index page
 
 ```bash
 az storage blob service-properties update \
-  --account-name <productappstoragename> \
+  --account-name weekeightva96appsa \
   --static-website \
   --index-document index.html \
   --404-document index.html
@@ -51,26 +51,28 @@ npm run build
 
 # publish
 az storage blob upload-batch \
-  --account-name <productappstoragename> \
+  --account-name weekeightva96appsa \
   --source ./dist \
   --destination '$web' \
   --overwrite
 
 # get URL
 az storage account show \
-  --name <productappstoragename> \
-  --resource-group <your-resource-group> \
+  --name weekeightva96appsa \
+  --resource-group weekeight-va96-rg \
   --query "primaryEndpoints.web" \
   --output tsv
 ```
+
+# https://weekeightva96appsa.z33.web.core.windows.net/
 
 4. Add your storage site to CORS on the Function App (so the deployed web app can access the web service):
 
 ```bash
 az functionapp cors add \
-  --name <your-backend-products-func> \
-  --resource-group <your-resource-group> \
-  --allowed-origins https://<app-store-endpoint>
+  --name weekeight-va96-app \
+  --resource-group weekeight-va96-rg \
+  --allowed-origins https://weekeightva96appsa.z33.web.core.windows.net
 ```
 
 ### Configure the Monitoring
@@ -79,19 +81,19 @@ az functionapp cors add \
 
 ```bash
 az monitor log-analytics workspace create \
-  --name <your-workspace-name> \
-  --resource-group <your-resource-group> \
-  --location <permitted-location>
+  --name weekeight-va96-logs \
+  --resource-group weekeight-va96-rg \
+  --location uksouth
 ```
 
 2. Create an Application Insights resource for the frontend app:
 
 ```bash
 az monitor app-insights component create \
-  --resource-group <your-resource-group> \
-  --location <permitted-location> \
-  --app <app-insights-name> \
-  --workspace <your-workspace-name> \
+  --resource-group weekeight-va96-rg \
+  --location uksouth \
+  --app weekeight-va96-insights \
+  --workspace weekeight-va96-logs \
   --kind web
 ```
 
